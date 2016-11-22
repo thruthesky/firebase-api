@@ -76,4 +76,16 @@ export class FirebaseStorage {
     return blob;
   }
 
+
+  delete( ref: string, successCallback: () => void, failureCallback: (error:string) => void ) {
+    console.log('delete() ref: ', ref);
+    this.storage.ref().child( ref )
+      .delete()
+      .then( successCallback )
+      .catch( e => {
+        failureCallback( e.message );
+    });
+  }
+
+
 }
