@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FirebaseStorage } from './firebase-storage';
+import { FirebaseAuth } from './firebase-auth';
 import * as firebase from 'firebase';
 
 var config = {
@@ -14,6 +15,6 @@ firebase.initializeApp(config);
 @NgModule({
   declarations : [],
   imports: [],
-  providers : [ FirebaseStorage ]
+  providers : [ FirebaseStorage, FirebaseAuth ]
 })
 export class FirebaseApiModule {}

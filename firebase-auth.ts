@@ -8,19 +8,35 @@ export class FirebaseAuth {
         this.auth = firebase.auth();
     }
 
-    register( email, password ) {
+    /**
+     * @note If the new account was created, the user is signed in automatically.
+     */
+    register( email, password, successCallback, failureCallback ) {
         this.auth.createUserWithEmailAndPassword(email, password)
-            .catch( error => {
+            .then( firebaseUser => {
+                // console.log("User " + firebaseUser.uid + " created successfully!");
+                // return firebaseUser;
+                successCallback( firebaseUser );
+            }, error => {
                 // Handle Errors here.
                 var errorCode = error['code'];
                 var errorMessage = error.message;
                 if (errorCode == 'auth/weak-password') {
-                    alert('The password is too weak.');
-                } else {
-                    alert(errorMessage);
+                    errorMessage = 'The password is too weak.';
                 }
-                console.log(error);
+                failureCallback( errorCode, errorMessage );
             });
     }
-    
+
+    login( email, password, successCallback, failureCallback ) {
+
+        this.auth.signInWithEmailAndPassword(email, password)
+            .then( firebaseUser => {
+                successCallback( firebaseUser );
+            }, error => {
+                var errorCode = error['code'];
+                var errorMessage = error.message;
+                failureCallback( errorCode, errorMessage );
+            });
+    }
 }
